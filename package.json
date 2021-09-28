@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-complete-guide",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "debug": "nodemon --inspect app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kelprim/NodeJS---The-Complete-Guide.git"
+  },
+  "author": "Federico Keller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kelprim/NodeJS---The-Complete-Guide/issues"
+  },
+  "homepage": "https://github.com/Kelprim/NodeJS---The-Complete-Guide#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
