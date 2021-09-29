@@ -20,5 +20,9 @@
   "homepage": "https://github.com/Kelprim/NodeJS---The-Complete-Guide#readme",
   "devDependencies": {
     "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
   }
 }
