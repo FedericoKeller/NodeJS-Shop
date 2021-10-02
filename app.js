@@ -4,6 +4,9 @@ const nunjucks = require('nunjucks');
 
 const app = express();
 
+app.engine('njk', nunjucks.render);
+app.set('view engine', 'njk');
+
 
 nunjucks.configure('views', {
     autoescape: true,
@@ -11,8 +14,6 @@ nunjucks.configure('views', {
     watch: true,
 });
 
-app.engine('njk', nunjucks.render);
-app.set('view engine', 'njk');
 
 
 
