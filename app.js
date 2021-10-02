@@ -1,10 +1,20 @@
 const path = require('path');
 const express = require('express');
+const nunjucks = require('nunjucks');
 
 const app = express();
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app,
+    watch: true,
+});
+
+app.engine('njk', nunjucks.render);
+app.set('view engine', 'njk');
+
+
 
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
