@@ -11,31 +11,62 @@
 </head>
 
 <body>
-    <header class="main-header">
-        <nav class="main-header__nav">
-            <ul class="main-header__item-list">
-                <li class="main-header__item">
-                    <a class="{{'active' if path == '/'}}" href="/">Shop</a>
+<div class="backdrop"></div>
+<header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/'}}" href="/">Shop</a>
+            </li>
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/products'}}" href="/products">Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/cart'}}" href="/cart">Cart</a>
+            </li>
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/orders'}}" href="/orders">Orders</a>
+            </li>
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/admin/add-product'}}" href="/admin/add-product">Add Product
+                </a>
+            </li>
+            <li class="main-header__item">
+                <a class="{{'active' if path === '/admin/products'}}" href="/admin/products">Admin Products
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<nav class="mobile-nav">
+        <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/'}}" href="/">Shop</a>
                 </li>
-                <li class="main-header__item">
-                    <a class="{{'active' if path == '/products'}}" href="/products">Products</a>
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/products'}}" href="/products">Products</a>
                 </li>
-                <li class="main-header__item">
-                    <a class="{{'active' if path == '/cart'}}" href="/cart">Cart</a>
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/cart'}}" href="/cart">Cart</a>
                 </li>
-                                <li class="main-header__item">
-                    <a class="{{'active' if path == '/orders'}}" href="/orders">Orders</a>
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/orders'}}" href="/orders">Orders</a>
                 </li>
-                <li class="main-header__item">
-                    <a class="{{'active' if path == '/admin/add-product'}}" href="/admin/add-product">Add Product</a>
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/admin/add-product'}}" href="/admin/add-product">Add Product
+                    </a>
                 </li>
-                <li class="main-header__item">
-                    <a class="{{'active' if path == '/admin/products'}}" href="/admin/products">Admin Products</a>
+                <li class="mobile-nav__item">
+                    <a class="{{'active' if path === '/admin/products'}}" href="/admin/products">Admin Products
+                    </a>
                 </li>
             </ul>
-        </nav>
-    </header>
+</nav>
     {%block content%} {%endblock%}
+    <script src="/js/main.js"></script>
+
 </body>
 
 </html>
