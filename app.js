@@ -1,20 +1,14 @@
 const path = require('path');
 const express = require('express');
 const nunjucks = require('nunjucks');
+const setUpNunjucks = require('./helpers/nunjuck_helpers');
 const errorController = require('./controllers/error');
 const app = express();
 
 app.engine('njk', nunjucks.render);
 app.set('view engine', 'njk');
 
-
-nunjucks.configure('views', {
-    autoescape: true,
-    express: app,
-    watch: true,
-});
-
-
+setUpNunjucks(app);
 
 
 const adminRoutes = require('./routes/admin');
