@@ -3,3 +3,23 @@
 {% block styles %}
     <link rel="stylesheet" href="/css/product.css">
 {% endblock %}
+
+{%block content%}
+<main>
+    {%if products.length > 0 %}
+    <ul>
+        {%for productInCart in products%}
+        <li>
+            <p>{{productInCart.productData.title}} ({{productInCart.qty}})</p>
+            <form action="/cart-delete-item" method="POST">
+                <button class="btn" type="submit">Delete</button>
+                <input type="hidden" name="productId" value="{{productInCart.productData.id}}">
+            </form>
+        </li>
+        {%endfor%}
+    </ul>
+    {%else%}
+    <h1>No products in Cart!</h1>
+    {%endif%}
+</main>
+{%endblock%}
