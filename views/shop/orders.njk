@@ -3,3 +3,26 @@
 {% block styles %}
     <link rel="stylesheet" href="/css/product.css">
 {% endblock %}
+
+{% block content %}
+<main>
+    {% if orders.length > 0 %}
+    <ul>
+       {%for order in orders%}
+         <li>
+            <h1># {{order.id}}</h1>
+            <ul>
+            {%for product in order.products%}
+                <li>
+                    {{product.title}} ({{product.orderItem.quantity}})
+                </li>
+            {%endfor%}
+            </ul>
+        </li>
+       {%endfor %}
+    </ul>
+    {% else %}
+        <h1>No Orders!</h1>
+    {%endif%}
+</main>
+{% endblock %}
