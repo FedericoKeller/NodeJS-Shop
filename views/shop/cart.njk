@@ -2,18 +2,20 @@
 
 {% block styles %}
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/cart.css">
 {% endblock %}
 
 {%block content%}
 <main>
     {%if products.length > 0 %}
-    <ul>
+    <ul class="cart__item-list">
         {%for productInCart in products%}
-        <li>
-            <p>{{productInCart.productData.title}} ({{productInCart.qty}})</p>
+        <li class="cart__item">
+            <h1>{{productInCart.title}}</h1>
+            <h2>{{productInCart.cartItem.quantity}}</h2>
             <form action="/cart-delete-item" method="POST">
-                <button class="btn" type="submit">Delete</button>
-                <input type="hidden" name="productId" value="{{productInCart.productData.id}}">
+                <button class="btn danger" type="submit">Delete</button>
+                <input type="hidden" name="productId" value="{{productInCart.id}}">
             </form>
         </li>
         {%endfor%}
