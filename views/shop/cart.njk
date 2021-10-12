@@ -1,25 +1,30 @@
 {% extends "../layouts/main-layout.njk" %}
-
 {% block styles %}
     <link rel="stylesheet" href="/css/product.css">
-{% endblock %}
-
-{%block content%}
-<main>
-    {%if products.length > 0 %}
-    <ul>
-        {%for productInCart in products%}
-        <li>
-            <p>{{productInCart.productData.title}} ({{productInCart.qty}})</p>
-            <form action="/cart-delete-item" method="POST">
-                <button class="btn" type="submit">Delete</button>
-                <input type="hidden" name="productId" value="{{productInCart.productData.id}}">
-            </form>
-        </li>
-        {%endfor%}
-    </ul>
-    {%else%}
-    <h1>No products in Cart!</h1>
-    {%endif%}
-</main>
-{%endblock%}
+        <link rel="stylesheet" href="/css/cart.css">
+        {% endblock %}
+        {% block content %}
+            <main>
+                {% if products.length > 0 %}
+                    <ul class="cart__item-list">
+                        {% for productInCart in products %}
+                            <li class="cart__item">
+                                <h1>{{ productInCart.title }}</h1>
+                                <h2>{{ productInCart.quantity }}</h2>
+                                <form action="/cart-delete-item" method="POST">
+                                    <button class="btn danger" type="submit">Delete</button>
+                                    <input type="hidden" name="productId" value="{{ productInCart._id }}"></form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                            <div class="centered">
+                                <form action="/create-order" method="POST">
+                                    <button type="submit" class="btn">Order Now!</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h1>No products in Cart!</h1>
+                        {% endif %}
+                    </main>
+                {% endblock %}
