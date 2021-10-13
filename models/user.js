@@ -45,13 +45,35 @@ class User {
 
   getCart() {
     const db = getDb();
-    const productIds = this.cart.items.map((i) => {
+    let productIds = this.cart.items.map((i) => {
       return i.productId;
     });
     return db
       .collection("products")
       .find({ _id: { $in: productIds } })
       .toArray()
+      .then((products) => {
+        if (products.length != productIds.length) {
+          productIds = productIds.map((i) => i.toString());
+
+          let filtered = productIds.filter(
+            (productId) =>
+              !products.map((item) => item._id.toString()).includes(productId)
+          );
+
+          for (let i in this.cart.items) {
+            if (filtered.includes(this.cart.items[i].productId.toString())) {
+              this.cart.items.splice(i, 1);
+            }
+          }
+
+          db.collection("users").updateOne(
+            { _id: new mongodb.ObjectId(this._id) },
+            { $set: { cart: { items: this.cart.items } } }
+          );
+        }
+        return products;
+      })
       .then((products) => {
         return products.map((p) => {
           return {
@@ -106,8 +128,10 @@ class User {
 
   getOrders() {
     const db = getDb();
-    return db.collection("orders").find({'user._id': new mongodb.ObjectId(this._id)})
-    .toArray();
+    return db
+      .collection("orders")
+      .find({ "user._id": new mongodb.ObjectId(this._id) })
+      .toArray();
   }
 
   static findById(userId) {
