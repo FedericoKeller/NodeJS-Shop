@@ -9,11 +9,11 @@
                     <ul class="cart__item-list">
                         {% for productInCart in products %}
                             <li class="cart__item">
-                                <h1>{{ productInCart.title }}</h1>
-                                <h2>{{ productInCart.quantity }}</h2>
+                                <h1>{{ productInCart.productId.title }}</h1>
+                                <h2>Quantity: {{ productInCart.quantity }}</h2>
                                 <form action="/cart-delete-item" method="POST">
                                     <button class="btn danger" type="submit">Delete</button>
-                                    <input type="hidden" name="productId" value="{{ productInCart._id }}"></form>
+                                    <input type="hidden" name="productId" value="{{ productInCart.productId._id }}"></form>
                                 </li>
                             {% endfor %}
                         </ul>
