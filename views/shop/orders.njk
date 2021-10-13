@@ -1,5 +1,28 @@
 {% extends "../layouts/main-layout.njk" %}
 
 {% block styles %}
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/orders.css">
+{% endblock %}
+
+{% block content %}
+<main>
+    {% if orders.length > 0 %}
+    <ul class="orders">
+       {%for order in orders%}
+         <li class="orders__items">
+            <h1># {{order._id}}</h1>
+            <ul class="orders__products">
+            {%for product in order.items%}
+                <li class="orders__products-item">
+                    {{product.title}} ({{product.quantity}})
+                </li>
+            {%endfor%}
+            </ul>
+        </li>
+       {%endfor %}
+    </ul>
+    {% else %}
+        <h1>No Orders!</h1>
+    {%endif%}
+</main>
 {% endblock %}
