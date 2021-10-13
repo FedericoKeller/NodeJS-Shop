@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Kelprim/NodeJS---The-Complete-Guide#readme",
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.13"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "express": "^4.17.1",
     "express-handlebars": "3.0",
     "mongodb": "^4.1.3",
+    "mongoose": "^6.0.10",
     "nunjucks": "^3.2.3",
     "pug": "^3.0.2"
   }
