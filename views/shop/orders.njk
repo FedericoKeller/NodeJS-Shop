@@ -12,9 +12,9 @@
          <li class="orders__items">
             <h1># {{order._id}}</h1>
             <ul class="orders__products">
-            {%for product in order.items%}
+            {%for p in order.products%}
                 <li class="orders__products-item">
-                    {{product.title}} ({{product.quantity}})
+                    {{p.product.title}} ({{p.quantity}})
                 </li>
             {%endfor%}
             </ul>
