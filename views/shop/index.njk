@@ -22,7 +22,9 @@
                 </div>
                 <div class="card__actions">
                     <a href="/products/{{product._id}}" class="btn">Details</a>
+                    {%if isAuthenticated%}
                     {{"./includes/add-to-cart.njk" | render({product: product})}}
+                    {%endif%}
                 </div>
             </article>
             {% endfor %}
