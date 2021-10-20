@@ -14,7 +14,7 @@
     <h2>{{product.price}}$</h2>
     <p>{{product.description}}</p>
     {%if isAuthenticated%}
-    {{"./includes/add-to-cart.njk" | render({product: product})}}
+    {{"./includes/add-to-cart.njk" | render({product: product, csrfToken: csrfToken})}}
     {%endif%}
 </main>
 {%endblock %}

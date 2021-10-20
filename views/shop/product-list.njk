@@ -24,7 +24,7 @@
                 <div class="card__actions">
                     <a href="/products/{{product._id}}" class="btn">Details</a>
                     {%if isAuthenticated%}
-                    {{"./includes/add-to-cart.njk" | render({product: product})}}
+                    {{"./includes/add-to-cart.njk" | render({product: product, csrfToken: csrfToken})}}
                     {%endif%}
                 </div>
             </article>
