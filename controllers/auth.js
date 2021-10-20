@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
 
+const transporter = require("../util/database").transporter;
+
 exports.getLogin = (req, res, next) => {
   res.render("auth/login", {
     pageTitle: "Login",
@@ -76,7 +78,14 @@ exports.postSignup = (req, res, next) => {
         })
         .then((result) => {
           res.redirect("/login");
-        });
+          return transporter.sendMail({
+            to: email,
+            from: 'shop@node-books.com',
+            subject: "Signup succeeded!",
+            htmL: "<h1>You successfully signed up!</h1>"
+          })
+         })
+         .catch(err => console.log(err))
     })
 
     .catch((err) => console.log(err));
