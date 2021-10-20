@@ -41,6 +41,9 @@
                             <li class="main-header__item">
                                 <a class="{{ 'active' if path === '/login' }}" href="/login">Login</a>
                             </li>
+                            <li class="main-header__item">
+                                <a class="{{ 'active' if path === '/signup' }}" href="/signup">Signup</a>
+                            </li>
                         {% else %}
                             <li class="main-header__item">
                                 <form action="/logout" method="post">
@@ -59,33 +62,36 @@
                     <li class="mobile-nav__item">
                         <a class="{{ 'active' if path === '/products' }}" href="/products">Products</a>
                     </li>
-                    {%if isAuthenticated%}
-                    <li class="mobile-nav__item">
-                        <a class="{{ 'active' if path === '/cart' }}" href="/cart">Cart</a>
-                    </li>
-                    <li class="mobile-nav__item">
-                        <a class="{{ 'active' if path === '/orders' }}" href="/orders">Orders</a>
-                    </li>
-                    <li class="mobile-nav__item">
-                        <a class="{{ 'active' if path === '/admin/add-product' }}" href="/admin/add-product">Add Product
-                        </a>
-                    </li>
-                    <li class="mobile-nav__item">
-                        <a class="{{ 'active' if path === '/admin/products' }}" href="/admin/products">Admin Products
-                        </a>
-                    </li>
-                    {%endif%}
-                    {%if not isAuthenticated%}
-                     <li class="mobile-nav__item">
-                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
-                    </li>
-                    {%else%}
-                    <li class="mobile-nav__item">
-                <form action="/logout" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-                 </li>
-                 {%endif%}
+                    {% if isAuthenticated %}
+                        <li class="mobile-nav__item">
+                            <a class="{{ 'active' if path === '/cart' }}" href="/cart">Cart</a>
+                        </li>
+                        <li class="mobile-nav__item">
+                            <a class="{{ 'active' if path === '/orders' }}" href="/orders">Orders</a>
+                        </li>
+                        <li class="mobile-nav__item">
+                            <a class="{{ 'active' if path === '/admin/add-product' }}" href="/admin/add-product">Add Product
+                            </a>
+                        </li>
+                        <li class="mobile-nav__item">
+                            <a class="{{ 'active' if path === '/admin/products' }}" href="/admin/products">Admin Products
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if not isAuthenticated %}
+                        <li class="mobile-nav__item">
+                            <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                        </li>
+                        <li class="mobile-nav__item">
+                            <a class="<%= path === '/signup' ? 'active' : '' %>" href="/login">Signup</a>
+                        </li>
+                    {% else %}
+                        <li class="mobile-nav__item">
+                            <form action="/logout" method="post">
+                                <button type="submit">Logout</button>
+                            </form>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
             {% block content %}{% endblock %}
