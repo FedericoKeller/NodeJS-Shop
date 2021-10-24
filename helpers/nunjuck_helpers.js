@@ -13,6 +13,13 @@ const setUpNunjucks = (expressApp) => {
             return err.message;
         }
     });
+
+    env.addFilter('findError', function(errors, param) {
+        if(!errors) {
+            return null;
+        }
+        return errors.find(e => e.param == param);
+    })
 }
 
 module.exports = setUpNunjucks;

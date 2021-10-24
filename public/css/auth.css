@@ -4,3 +4,11 @@
     margin: auto;
     display: block;
 }
+
+.form-control__remember-me {
+    display: flex;
+}
+
+.form-control__remember-me .form-control__remember-me--input{
+    width: auto;
+}

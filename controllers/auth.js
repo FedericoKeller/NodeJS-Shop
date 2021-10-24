@@ -6,10 +6,14 @@ const User = require("../models/user");
 
 const transporter = require("../util/database").transporter;
 
+const { validationResult } = require("express-validator");
+
 exports.getLogin = (req, res, next) => {
+  const savedEmail = req.cookies["email"];
   res.render("auth/login", {
     pageTitle: "Login",
     path: "/login",
+    savedEmail: savedEmail,
     errorMessage: req.flash("error"),
   });
 };
@@ -25,12 +29,21 @@ exports.getSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  User.findOne({ email: email })
-    .then((user) => {
-      if (!user) {
-        req.flash("error", "Invalid email or password.");
-        return res.redirect("/login");
-      }
+  const remember_me = req.body.remember_me;
+  const savedEmail = req.cookies["email"];
+
+  const errors = validationResult(req);
+  console.log(errors.array())
+  if(!errors.isEmpty()) {
+    return res.status(422).render("auth/login", {
+      pageTitle: "Login",
+      path: "/login",
+      errorMessage: errors.array()[0].msg,
+      savedEmail: savedEmail,
+      validationErrors: errors.array()
+    });
+  }
+
 
       bcrypt
         .compare(password, user.password)
@@ -38,6 +51,11 @@ exports.postLogin = (req, res, next) => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.user = user;
+            if(remember_me) {
+              res.cookie("email", email);
+            } else {
+              res.clearCookie("email");
+            }
             return req.session.save((err) => {
               console.log(err);
               res.redirect("/");
@@ -50,48 +68,45 @@ exports.postLogin = (req, res, next) => {
           console.log(err);
           res.redirect("/login");
         });
-    })
-    .catch((err) => console.log(err));
+
 };
 
 exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
 
-  User.findOne({ email: email })
-    .then((userDoc) => {
-      if (userDoc) {
-        req.flash(
-          "error",
-          "E-mail already exists, please pick a different one."
-        );
-        return res.redirect("/signup");
-      }
+  const errors = validationResult(req);
 
-      return bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            email: email,
-            password: hashedPassword,
-            cart: { items: [] },
-          });
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/signup", {
+      path: "/signup",
+      pageTitle: "Signup",
+      errorMessage: errors.array()[0].msg,
+      oldEmail: req.body.email,
+      validationErrors: errors.array()
+    });
+  }
 
-          return user.save();
-        })
-        .then((result) => {
-          res.redirect("/login");
-          return transporter.sendMail({
-            to: email,
-            from: "shop@node-books.com",
-            subject: "Signup succeeded!",
-            htmL: "<h1>You successfully signed up!</h1>",
-          });
-        })
-        .catch((err) => console.log(err));
+  bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        email: email,
+        password: hashedPassword,
+        cart: { items: [] },
+      });
+
+      return user.save();
     })
-
+    .then((result) => {
+      res.redirect("/login");
+      return transporter.sendMail({
+        to: email,
+        from: "shop@node-books.com",
+        subject: "Signup succeeded!",
+        htmL: "<h1>You successfully signed up!</h1>",
+      });
+    })
     .catch((err) => console.log(err));
 };
 
@@ -175,19 +190,20 @@ exports.postNewPassword = (req, res, next) => {
   User.findOne({
     resetToken: passwordToken,
     resetTokenExpiration: { $gt: Date.now() },
-    _id: userId
-  }).then(user => {
-    resetUser = user;
-    return bcrypt.hash(newPassword, 12);
+    _id: userId,
   })
-  .then(hashedPassword =>  {
-    resetUser.password = hashedPassword;
-    resetUser.resetToken = undefined;
-    resetUser.resetTokenExpiration = undefined;
-    return resetUser.save();
-  })
-  .then(result => {
-    res.redirect("/login");
-  })
-  .catch(err => console.log(err))
+    .then((user) => {
+      resetUser = user;
+      return bcrypt.hash(newPassword, 12);
+    })
+    .then((hashedPassword) => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then((result) => {
+      res.redirect("/login");
+    })
+    .catch((err) => console.log(err));
 };

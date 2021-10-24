@@ -11,16 +11,25 @@
                     {% endif %}
                     <form class="login-form" action="/login" method="POST">
                         <div class="form-control">
-                            <label for="email">E-mail</label>
-                            <input type="text" name="email" id="email"></div>
-                            <div class="form-control">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password"></div>
-                                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                                    <button class="btn" type="submit">Login</button>
-                                </form>
-                                <div class="centered">
-                                    <a href="/reset">Reset Password</a>
+                            <div class="form-control__email">
+                                <label for="email">E-mail</label>
+                                <input type="text" name="email" id="email" value="{{savedEmail}}"></div>
+                                <div class="form-control__remember-me">
+                                    <label for="remember_me">Remember Me</label>
+                                    <input type="checkbox" name="remember_me" id="remember_me" class="form-control__remember-me--input" {%if savedEmail%}checked{%endif %}></div>
                                 </div>
-                            </main>
-                        {% endblock %}
+                                <div class="form-control">
+                                    <label for="password">Password</label>
+                                    <input 
+                                    type="password"
+                                     name="password" 
+                                     id="password">
+                                     </div>
+                                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                                        <button class="btn" type="submit">Login</button>
+                                    </form>
+                                    <div class="centered">
+                                        <a href="/reset">Reset Password</a>
+                                    </div>
+                                </main>
+                            {% endblock %}
