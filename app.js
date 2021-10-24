@@ -48,29 +48,41 @@ app.use(flash());
 app.use(cookieParser());
 
 
-app.use((req, res, next) => {
-  if(!req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-  .then((user) => {
-    req.user = user;
-    next();
-  })
-})
-
-
 app.use((req, res,next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
 })
 
+app.use((req, res, next) => {
+  if(!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+  .then((user) => {
+    if(!user) {
+      return next();
+    }
+    req.user = user;
+    next();
+  })
+  .catch(err => {
+   next(new Error(err));
+  })
+})
+
+
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
+app.use("/500", errorController.get500);
 app.use(errorController.get404);
+
+app.use((error, req, res, next) => {
+    res.redirect("/500");
+})
+
 
 mongoose
   .connect(DATABASE_CONNECTION)
