@@ -14,14 +14,6 @@ router.post(
   "/login",
   [
     check("email").isEmail().withMessage("Please enter a valid email").normalizeEmail(),
-    body("password").custom((value, {req}) => {
-       return User.findOne({ email: value })
-        .then((user) => {
-          if (!user) {
-           return Promise.reject("Invalid email or password.");
-          }
-        })
-    }).trim()
   ],
   authController.postLogin
 );

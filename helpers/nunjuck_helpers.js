@@ -18,6 +18,8 @@ const setUpNunjucks = (expressApp) => {
         if(!errors) {
             return null;
         }
+
+        console.log(errors.find(e => e.param == param))
         return errors.find(e => e.param == param);
     })
 }

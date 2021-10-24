@@ -30,20 +30,21 @@ exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const remember_me = req.body.remember_me;
-  const savedEmail = req.cookies["email"];
-
   const errors = validationResult(req);
-  console.log(errors.array())
+
   if(!errors.isEmpty()) {
     return res.status(422).render("auth/login", {
       pageTitle: "Login",
       path: "/login",
       errorMessage: errors.array()[0].msg,
-      savedEmail: savedEmail,
-      validationErrors: errors.array()
     });
   }
-
+  User.findOne({ email: email })
+    .then((user) => {
+      if (!user) {
+        req.flash("error", "Invalid email or password.");
+        return res.redirect("/login");
+      }
 
       bcrypt
         .compare(password, user.password)
@@ -68,7 +69,8 @@ exports.postLogin = (req, res, next) => {
           console.log(err);
           res.redirect("/login");
         });
-
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postSignup = (req, res, next) => {
