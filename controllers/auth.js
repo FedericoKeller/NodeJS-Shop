@@ -9,6 +9,7 @@ const transporter = require("../util/database").transporter;
 const { validationResult } = require("express-validator");
 
 exports.getLogin = (req, res, next) => {
+
   const savedEmail = req.cookies["email"];
   res.render("auth/login", {
     pageTitle: "Login",
