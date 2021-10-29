@@ -9,7 +9,7 @@
     <h1>{{product.title}}</h1>
     <hr>
     <div>
-        <img src="{% if product.imageUrl == ''%}https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png {%else %} {{product.imageUrl}} {%endif%}" alt="{{product.title}}">
+        <img class="product__image" src="{% if product.imageUrl == ''%}https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png {%else %} {{'/' + product.imageUrl}} {%endif%}" alt="{{product.title}}">
     </div>
     <h2>{{product.price}}$</h2>
     <p>{{product.description}}</p>
